@@ -63,11 +63,11 @@ spec:
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             runAsNonRoot: true
-            runAsUser: 100000
-            runAsGroup: 100000
+            runAsUser: {{- if .Values.securityContext.runAsUser | eq nil }} null{{- else }} {{ .Values.securityContext.runAsUser | default 100000 }}{{- end }}
+            runAsGroup: {{- if .Values.securityContext.runAsGroup | eq nil }} null{{- else }} {{ .Values.securityContext.runAsGroup | default 100000 }}{{- end }}
             capabilities:
-              drop:
-                - ALL
+             drop:
+              - ALL
           volumeMounts:
             - name: tmp
               # Tmp folder used by spring to write data. We need to mount this because of "readOnlyRootFilesystem" (see above)
